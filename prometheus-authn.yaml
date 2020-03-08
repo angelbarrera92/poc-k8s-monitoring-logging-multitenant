@@ -1,0 +1,7 @@
+users:
+  - username: Tenant1
+    password: 1tnaneT
+    namespace: tenant-1
+  - username: Tenant2
+    password: 2tnaneT
+    namespace: tenant-2
