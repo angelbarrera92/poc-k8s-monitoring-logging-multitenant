@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-multi-tenant-proxy
+  namespace: monitoring
+spec:
+  ports:
+  - port: 9091
+    protocol: TCP
+    targetPort: 9091
+  selector:
+    app: prometheus-multi-tenant-proxy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: prometheus-multi-tenant-proxy
+  name: prometheus-multi-tenant-proxy
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-multi-tenant-proxy
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: prometheus-multi-tenant-proxy
+    spec:
+      containers:
+      - name: prometheus-multi-tenant-proxy
+        image: k8spin/prometheus-multi-tenant-proxy:v1.0.1
+        imagePullPolicy: Always
+        args:
+          - "run"
+          - "--port=9091"
+          - "--prometheus-endpoint=http://prometheus-k8s.monitoring.svc.cluster.local:9090"
+          - "--auth-config=/etc/prometheus-multi-tenant-proxy/authn.yaml"
+        ports:
+          - name: http
+            containerPort: 9091
+            protocol: TCP   
+        resources: {}
+        volumeMounts:
+          - name: config
+            mountPath: /etc/prometheus-multi-tenant-proxy
+      volumes:
+        - name: config
+          secret:
+            secretName: prometheus-multi-tenant-proxy-auth-config

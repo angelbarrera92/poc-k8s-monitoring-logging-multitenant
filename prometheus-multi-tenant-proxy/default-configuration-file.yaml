@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prometheus-multi-tenant-proxy-auth-config
+  namespace: monitoring
+  labels:
+    app: prometheus-multi-tenant-proxy
+stringData:
+  authn.yaml: |-
+    users: []
