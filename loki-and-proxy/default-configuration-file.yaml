@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: loki-multi-tenant-proxy-auth-config
+  namespace: logging
+  labels:
+    app: loki-multi-tenant-proxy
+stringData:
+  authn.yaml: |-
+    users: []
