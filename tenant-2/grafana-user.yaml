@@ -1,0 +1,9 @@
+apiVersion: grafana.k8spin.cloud/v1
+kind: User
+metadata:
+  name: tenant-2
+  namespace: monitoring
+spec:
+  email: user@tenant-2.com
+  organizations:
+    - tenant-2
